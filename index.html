@@ -1912,6 +1912,120 @@ requirePhotoProof = true;
     startGameInteractions();
 }
 
+function startGameInteractions(){
+
+    const cells =
+        document.querySelectorAll(
+            ".bingoCell"
+        );
+
+    cells.forEach(function(cell, index){
+
+        if(gameProgress[index]){
+
+            cell.classList.add(
+                "completed"
+            );
+
+            if(gameProgress[index].image){
+
+                cell.innerHTML =
+                    `
+                    <img
+                        src="${gameProgress[index].image}"
+                        class="cellImage"
+                    >
+                    `;
+            }
+        }
+
+        cell.addEventListener("click", function(){
+
+            if(requirePhotoProof){
+
+                const fileInput =
+                    document.createElement("input");
+
+                fileInput.type = "file";
+
+                fileInput.accept =
+                    "image/*";
+
+                fileInput.capture =
+                    "environment";
+
+                fileInput.click();
+
+                fileInput.addEventListener(
+                    "change",
+
+                    function(e){
+
+                        const file =
+                            e.target.files[0];
+
+                        if(file){
+
+                            const imageUrl =
+                                URL.createObjectURL(file);
+
+                            cell.innerHTML =
+                                `
+                                <img
+                                    src="${imageUrl}"
+                                    class="cellImage"
+                                >
+                                `;
+
+                            cell.classList.add(
+                                "completed"
+                            );
+
+                            gameProgress[index] = {
+
+                                completed:true,
+
+                                image:imageUrl
+                            };
+
+                            saveBoard();
+
+                            checkBingo();
+                        }
+                    }
+                );
+
+                return;
+            }
+
+            if(cell.classList.contains("completed")){
+
+                cell.classList.remove(
+                    "completed"
+                );
+
+                gameProgress[index] =
+                    null;
+
+            }else{
+
+                cell.classList.add(
+                    "completed"
+                );
+
+                gameProgress[index] = {
+
+                    completed:true
+                };
+            }
+
+            saveBoard();
+
+            checkBingo();
+        });
+    });
+}
+
 function startGame(){
 
     const savedBoard =
