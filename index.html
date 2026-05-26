@@ -2006,14 +2006,22 @@ if(gameProgress[index]){
 
             if(gameProgress[index].image){
 
-                cell.innerHTML =
-                    `
-                    <img
-                        src="${gameProgress[index].image}"
-                        class="cellImage"
-                    >
-                    `;
-            }
+    const cellContent =
+        cell.querySelector(
+            ".cellContent"
+        );
+
+    cellContent.className =
+        "cellContent";
+
+    cellContent.innerHTML =
+        `
+        <img
+            src="${gameProgress[index].image}"
+            class="cellImage"
+        >
+        `;
+}
         }
 
         cell.addEventListener("click", function(){
@@ -2046,13 +2054,21 @@ if(gameProgress[index]){
                             const imageUrl =
                                 URL.createObjectURL(file);
 
-                            cell.innerHTML =
-                                `
-                                <img
-                                    src="${imageUrl}"
-                                    class="cellImage"
-                                >
-                                `;
+const cellContent =
+    cell.querySelector(
+        ".cellContent"
+    );
+
+cellContent.className =
+    "cellContent";
+
+cellContent.innerHTML =
+    `
+    <img
+        src="${imageUrl}"
+        class="cellImage"
+    >
+    `;
 
                             cell.classList.add(
                                 "completed"
