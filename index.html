@@ -1039,9 +1039,29 @@ animation:
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
+
 </head>
 
 <body>
+
+<audio id="clickSound">
+    <source
+        src="https://assets.mixkit.co/active_storage/sfx/2568/2568-preview.mp3"
+        type="audio/mpeg">
+</audio>
+
+<audio id="successSound">
+    <source
+        src="https://assets.mixkit.co/active_storage/sfx/270/270-preview.mp3"
+        type="audio/mpeg">
+</audio>
+
+<audio id="bingoSound">
+    <source
+        src="https://assets.mixkit.co/active_storage/sfx/2013/2013-preview.mp3"
+        type="audio/mpeg">
+</audio>
+
 
 <div id="homeScreen">
 
@@ -1663,6 +1683,21 @@ let gameProgress = [];
 
 let currentBoardId = null;
 
+const clickSound =
+    document.getElementById(
+        "clickSound"
+    );
+
+const successSound =
+    document.getElementById(
+        "successSound"
+    );
+
+const bingoSound =
+    document.getElementById(
+        "bingoSound"
+    );
+
 window.onload = function(){
 
     const savedBoard =
@@ -1733,6 +1768,9 @@ if(savedProgress){
 }
 function openPanel(){
 
+clickSound.currentTime = 0;
+clickSound.play();
+
     playMode = false;
 
     const pedagogyPanel =
@@ -1756,6 +1794,9 @@ function openPanel(){
     }
 }
 function openPedagogyPanel(){
+
+clickSound.currentTime = 0;
+clickSound.play();
 
     const pedagogyPanel =
         document.getElementById(
@@ -1786,6 +1827,9 @@ requirePhotoProof = false;
 }
 
 function openGameSelect(){
+
+clickSound.currentTime = 0;
+clickSound.play();
 
     const savedBoards =
         JSON.parse(
@@ -1954,11 +1998,11 @@ function startGameInteractions(){
 
     cells.forEach(function(cell, index){
 
-        if(gameProgress[index]){
+if(gameProgress[index]){
 
-            cell.classList.add(
-                "completed"
-            );
+    cell.classList.add(
+        "completed"
+    );
 
             if(gameProgress[index].image){
 
@@ -2013,6 +2057,9 @@ function startGameInteractions(){
                             cell.classList.add(
                                 "completed"
                             );
+
+successSound.currentTime = 0;
+successSound.play();
 
                             gameProgress[index] = {
 
@@ -2558,6 +2605,10 @@ function closeMessageModal(){
 }
 
 function showBingoOverlay(){
+
+    bingoSound.currentTime = 0;
+
+    bingoSound.play();
 
     bingoOverlay.style.display = "flex";
 }
