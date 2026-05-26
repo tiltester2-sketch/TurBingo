@@ -1,0 +1,3133 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TurBingo</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+
+    overflow-x:hidden;
+
+    min-height:100vh;
+}
+
+#homeScreen{
+    width:100%;
+    height:100vh;
+
+    background-image:url('background.jpg');
+
+    background-size:cover;
+    background-repeat:no-repeat;
+    background-position:center center;
+
+    position:relative;
+    overflow:hidden;
+}
+
+
+/* mørk overlay for lesbarhet */
+
+
+
+
+
+/* HOVEDMENY */
+
+#menuButtons{
+    position:absolute;
+    inset:0;
+    z-index:1;
+}
+
+/* LOGO */
+
+#gameLogo{
+    position:absolute;
+
+    top:2vh;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    font-size:clamp(60px,10vw,135px);
+    font-weight:900;
+
+    letter-spacing:-5px;
+
+    background:linear-gradient(
+        90deg,
+        #52ff52,
+        #ffd93d,
+        #ff9f43,
+        #4da6ff,
+        #b366ff,
+        #52ff52
+    );
+
+    background-size:300% 300%;
+
+    -webkit-background-clip:text;
+    -webkit-text-fill-color:transparent;
+
+    text-shadow:
+        0 4px 0 rgba(255,255,255,0.15),
+        0 10px 24px rgba(0,0,0,0.35),
+        0 0 22px rgba(255,255,255,0.25);
+
+    filter:drop-shadow(
+        0 0 10px rgba(255,255,255,0.2)
+    );
+
+    user-select:none;
+
+    animation:
+        logoFloat 3s ease-in-out infinite,
+        logoShine 8s linear infinite;
+}
+
+@keyframes logoFloat{
+
+    0%{
+        transform:
+            translateX(-50%)
+            translateY(0px);
+    }
+
+    50%{
+        transform:
+            translateX(-50%)
+            translateY(-8px);
+    }
+
+    100%{
+        transform:
+            translateX(-50%)
+            translateY(0px);
+    }
+}
+
+@keyframes logoShine{
+
+    0%{
+        background-position:0% 50%;
+    }
+
+    100%{
+        background-position:100% 50%;
+    }
+}
+
+@keyframes signFloat{
+
+    0%{
+        transform:
+            translateY(0px);
+    }
+
+    50%{
+        transform:
+            translateY(-4px);
+    }
+
+    100%{
+        transform:
+            translateY(0px);
+    }
+}
+
+/* FELLES KNAPPESTIL */
+
+#newBoardButton,
+#playButton{
+    position:absolute;
+
+    left:3vw;
+
+    width:42vw;
+    max-width:430px;
+
+    height:13vh;
+
+    border:none;
+
+    clip-path:polygon(
+        0% 0%,
+        88% 0%,
+        100% 50%,
+        88% 100%,
+        0% 100%
+    );
+
+    font-size:clamp(24px,3vw,44px);
+    font-weight:900;
+
+    color:white;
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+    padding-left:34px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 10px 24px rgba(0,0,0,0.35),
+        inset 0 3px 0 rgba(255,255,255,0.25),
+        inset 0 -4px 0 rgba(0,0,0,0.18);
+
+transition:
+    transform 0.15s,
+    filter 0.15s,
+    box-shadow 0.2s;
+
+overflow:hidden;
+
+animation:
+    signFloat 4s ease-in-out infinite;
+}
+/* HOVER */
+
+#newBoardButton:hover,
+#playButton:hover{
+
+    transform:
+        scale(1.04)
+        rotate(-1deg);
+
+    filter:
+        brightness(1.08);
+
+    box-shadow:
+        0 0 24px rgba(255,255,255,0.28),
+        0 14px 30px rgba(0,0,0,0.38),
+        inset 0 3px 0 rgba(255,255,255,0.25),
+        inset 0 -4px 0 rgba(0,0,0,0.18);
+}
+
+/* IKON */
+
+#newBoardButton span,
+#playButton span{
+    font-size:1.3em;
+}
+
+/* GRØNT SKILT */
+
+#newBoardButton{
+    top:28vh;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #7ee35f 0%,
+            #5dc84a 45%,
+            #489e3a 100%
+        );
+
+    border:4px solid rgba(0,0,0,0.12);
+}
+
+/* BLÅTT SKILT */
+
+#playButton{
+    top:46vh;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #63b5ff 0%,
+            #4098ff 45%,
+            #2f73d9 100%
+        );
+
+    border:4px solid rgba(0,0,0,0.12);
+}
+
+/* PEDAGOGISK SKILT */
+
+#pedagogyButton{
+
+    position:absolute;
+
+    left:3vw;
+
+    top:64vh;
+
+width:48vw;
+max-width:520px;
+
+    height:13vh;
+
+    border:none;
+
+    clip-path:polygon(
+        0% 0%,
+        88% 0%,
+        100% 50%,
+        88% 100%,
+        0% 100%
+    );
+
+    font-size:clamp(18px,2.4vw,34px);
+    font-weight:900;
+
+    color:white;
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+    padding-left:34px;
+
+    cursor:pointer;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #c77dff 0%,
+            #9d4edd 45%,
+            #7b2cbf 100%
+        );
+
+    border:4px solid rgba(0,0,0,0.12);
+
+    box-shadow:
+        0 10px 24px rgba(0,0,0,0.35),
+        inset 0 3px 0 rgba(255,255,255,0.25),
+        inset 0 -4px 0 rgba(0,0,0,0.18);
+
+transition:
+    transform 0.15s,
+    filter 0.15s,
+    box-shadow 0.2s;
+
+overflow:hidden;
+
+animation:
+    signFloat 4s ease-in-out infinite;
+}
+
+#pedagogyButton:hover{
+
+    transform:
+        scale(1.04)
+        rotate(-1deg);
+
+    filter:
+        brightness(1.08);
+
+    box-shadow:
+        0 0 24px rgba(255,255,255,0.28),
+        0 14px 30px rgba(0,0,0,0.38),
+        inset 0 3px 0 rgba(255,255,255,0.25),
+        inset 0 -4px 0 rgba(0,0,0,0.18);
+}
+
+#pedagogyButton span{
+
+    font-size:1.3em;
+}
+
+.panel{
+
+    position:absolute;
+
+    right:3vw;
+
+    top:28vh;
+
+    width:min(420px, 42vw);
+
+    background:rgba(255,255,255,0.96);
+
+    border-radius:22px;
+
+    padding:24px;
+
+    z-index:20;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.35);
+
+    display:none;
+}
+.panel h2{
+    margin-bottom:16px;
+    color:#2c3e50;
+}
+
+.gridSettings{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+}
+
+.gridSettings button{
+    padding:16px;
+    border:none;
+    border-radius:12px;
+    background:#ececec;
+    font-size:18px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.gridSettings button:hover{
+    background:#d7e7ff;
+}
+
+#gameSelectScreen{
+
+    display:none;
+
+    min-height:100vh;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #dff5ff,
+            #ffffff
+        );
+
+    padding:20px;
+}
+
+.savedBoardItem{
+
+    background:white;
+
+    padding:18px;
+
+    border-radius:20px;
+
+    margin-bottom:14px;
+
+    box-shadow:
+        0 4px 12px rgba(0,0,0,0.12);
+
+    cursor:pointer;
+
+    transition:0.2s;
+}
+
+.savedBoardItem:hover{
+
+    transform:scale(1.02);
+
+    background:#f3fbff;
+}
+
+#boardScreen{
+
+    display:none;
+
+    flex-direction:column;
+
+    height:100vh;
+
+    overflow-y:auto;
+    overflow-x:hidden;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #dff5ff,
+            #ffffff
+        );
+
+    padding:6px;
+
+    justify-content:flex-start;
+}
+
+.topBar{
+
+    position:relative;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:6px;
+
+    align-items:flex-start;
+
+    margin-bottom:12px;
+
+    z-index:5;
+}
+
+.topButtons{
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    align-items:flex-start;
+}
+
+
+.topBar h1{
+    font-size:20px;
+}
+
+.backBtn{
+    border:none;
+    background:#ffb52c;
+    color:white;
+    padding:8px 14px;
+    border-radius:12px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.bingoGrid{
+
+    display:grid;
+
+    gap:4px;
+
+    width:min(82vw, 500px);
+
+    margin:20px auto 0 auto;
+
+    align-content:start;
+}
+
+.cellContent{
+    width:100%;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    overflow:hidden;
+    border-radius:8px;
+    font-weight:bold;
+    color:#2c3e50;
+    font-size:10px;
+}
+
+.emptyCell{
+    background:#f3f3f3;
+    border:2px dashed #bbb;
+}
+
+.cellImage{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    border-radius:10px;
+}
+
+.cellText{
+    padding:8px;
+}
+
+.bingoCell{
+    background:white;
+    border-radius:14px;
+    aspect-ratio:1 / 1;
+    width:100%;
+    min-width:0;
+    padding:2px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.10);
+    overflow:hidden;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.bingoCell:hover{
+    transform:scale(1.03);
+}
+
+.bingoCell input[type="text"]{
+    width:100%;
+    padding:10px;
+    border-radius:10px;
+    border:2px solid #ddd;
+}
+
+.bingoCell input[type="file"]{
+    width:100%;
+}
+
+.preview{
+    width:100%;
+    height:55px;
+    object-fit:cover;
+    border-radius:10px;
+    display:none;
+}
+
+.completed{
+    background:#d9ffd9;
+    border:4px solid #53c653;
+    transform:scale(1.02);
+}
+
+.foundBtn{
+    width:100%;
+    border:none;
+    padding:8px;
+    border-radius:12px;
+    background:#4caf50;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:6px;
+}
+
+.foundBtn:hover{
+    background:#43a047;
+}
+
+.hiddenCamera{
+    display:none;
+}
+
+.cameraBtn{
+    width:100%;
+    border:none;
+    padding:8px;
+    border-radius:12px;
+    background:#4f8dff;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:6px;
+    transition:0.2s;
+}
+
+.cameraBtn:hover{
+    background:#3f7ae0;
+    transform:scale(1.02);
+}
+
+.libraryBtn{
+    width:100%;
+    border:none;
+    padding:8px;
+    border-radius:12px;
+    background:#ff9800;
+    color:white;
+    font-size:16px;
+    font-weight:bold;
+    cursor:pointer;
+    margin-top:6px;
+    transition:0.2s;
+}
+
+.libraryBtn:hover{
+    background:#e68900;
+    transform:scale(1.02);
+}
+
+/* POPUP MENY */
+
+.popupMenu{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.5);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:999;
+}
+
+.popupContent{
+    background:white;
+    width:320px;
+    border-radius:24px;
+    padding:24px;
+    display:flex;
+    flex-direction:column;
+    gap:14px;
+    box-shadow:0 12px 30px rgba(0,0,0,0.3);
+}
+
+.popupContent h2{
+    text-align:center;
+    color:#2c3e50;
+}
+
+.popupButton{
+    border:none;
+    padding:16px;
+    border-radius:16px;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+    color:white;
+}
+
+.textChoice{
+    background:#ff9800;
+}
+
+.cameraChoice{
+    background:#4f8dff;
+}
+
+.libraryChoice{
+    background:#4caf50;
+}
+
+.iconChoice{
+    background:#9c27b0;
+}
+
+.closeChoice{
+    background:#999;
+}
+
+.saveBtn{
+    margin-top:0;
+    padding:7px 12px;
+    border:none;
+    border-radius:14px;
+    background:#4f8dff;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+.printBtn{
+    margin-top:0;
+    padding:7px 12px;
+    align-self:center;
+    border:none;
+    border-radius:14px;
+    background:#48b04d;
+    color:white;
+    font-size:20px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* MOTIVARKIV */
+
+.libraryModal{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,0.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+    z-index:1200;
+}
+
+.libraryContent{
+    width:90%;
+    max-width:700px;
+    max-height:85vh;
+    overflow-y:auto;
+    background:white;
+    border-radius:24px;
+    padding:24px;
+}
+
+.libraryContent h2{
+    text-align:center;
+    margin-bottom:18px;
+    color:#2c3e50;
+}
+
+.libraryGrid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:14px;
+}
+
+.libraryItem{
+    aspect-ratio:1/1;
+    overflow:hidden;
+    border-radius:18px;
+    cursor:pointer;
+    transition:0.2s;
+    box-shadow:0 4px 12px rgba(0,0,0,0.18);
+}
+
+.libraryItem:hover{
+    transform:scale(1.04);
+}
+
+.libraryItem img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.iconGrid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:12px;
+}
+
+.iconItem{
+    aspect-ratio:1/1;
+    background:#f3f3f3;
+    border-radius:18px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:42px;
+    cursor:pointer;
+    transition:0.2s;
+}
+
+.iconItem:hover{
+    transform:scale(1.08);
+    background:#e0e0e0;
+}
+
+.closeLibraryBtn{
+    margin-top:20px;
+    width:100%;
+    border:none;
+    padding:16px;
+    border-radius:18px;
+    background:#ff5252;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    cursor:pointer;
+}
+
+/* BINGO OVERLAY */
+
+#bingoOverlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:
+        rgba(0,0,0,0.78);
+
+    display:none;
+
+    align-items:center;
+    justify-content:center;
+
+    z-index:5000;
+}
+
+.bingoOverlayContent{
+
+    background:
+        linear-gradient(
+            to bottom,
+            #fff8d6,
+            #ffe066
+        );
+
+    width:min(90vw, 420px);
+
+    border-radius:32px;
+
+    padding:40px 24px;
+
+    text-align:center;
+
+    box-shadow:
+        0 0 40px rgba(255,215,0,0.45),
+        0 12px 40px rgba(0,0,0,0.45);
+
+    animation:
+        bingoPop 0.5s ease;
+}
+
+.bingoOverlayContent h1{
+
+    font-size:clamp(54px,10vw,92px);
+
+    color:#ff6b00;
+
+    text-shadow:
+        0 4px 0 #fff,
+        0 10px 18px rgba(0,0,0,0.28);
+
+    margin-bottom:18px;
+}
+
+.bingoOverlayContent p{
+
+    font-size:24px;
+
+    font-weight:bold;
+
+    color:#444;
+
+    margin-bottom:24px;
+}
+
+.bingoOverlayButton{
+
+    border:none;
+
+    padding:16px 28px;
+
+    border-radius:20px;
+
+    background:#4caf50;
+
+    color:white;
+
+    font-size:22px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 6px 14px rgba(0,0,0,0.22);
+
+    transition:0.2s;
+}
+
+.bingoOverlayButton:hover{
+
+    transform:scale(1.05);
+
+    background:#43a047;
+}
+
+@keyframes bingoPop{
+
+    0%{
+        transform:scale(0.6);
+        opacity:0;
+    }
+
+    100%{
+        transform:scale(1);
+        opacity:1;
+    }
+}
+
+@media(max-width:900px){
+
+   body{
+
+    overflow-x:hidden;
+
+    min-height:100vh;
+}
+
+#homeScreen{
+    background-size:cover;
+    background-position:center center;
+}
+
+#newBoardButton,
+#playButton,
+#pedagogyButton{
+
+    left:5vw;
+
+    width:min(78vw, 340px);
+
+    height:68px;
+
+    font-size:22px;
+
+    padding-left:28px;
+
+    gap:12px;
+
+    border-radius:20px;
+}
+
+#newBoardButton{
+    top:30vh;
+}
+
+#playButton{
+    top:45vh;
+}
+
+#pedagogyButton{
+    top:60vh;
+}
+
+.panel{
+
+    left:50%;
+
+    right:auto;
+
+    top:72vh;
+
+    transform:translateX(-50%);
+
+    width:92vw;
+
+    max-width:420px;
+}
+    
+.bingoGrid{
+
+    width:min(92vw, 92vh);
+
+    max-width:92vw;
+
+    gap:3px;
+
+    margin:10px auto 30px auto;
+}
+
+    .topBar{
+        left:4px;
+        top:4px;
+    }
+
+    .backBtn,
+    .saveBtn,
+    .printBtn{
+        font-size:14px;
+        padding:6px 10px;
+    }
+}</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+
+</head>
+
+<body>
+
+<div id="homeScreen">
+
+
+<div id="menuButtons">
+
+    <div id="gameLogo">
+        TurBingo
+    </div>
+
+    <button id="newBoardButton"
+        onclick="openPanel()">
+
+        <span>➕</span>
+        Lag nytt ark
+    </button>
+
+<button id="playButton"
+    onclick="openGameSelect()">
+
+        <span>▶</span>
+        Spill
+    </button>
+
+<button id="pedagogyButton"
+    onclick="openPedagogyPanel()">
+
+    <span>🎓</span>
+    Pedagogisk modus
+</button>
+
+</div>
+
+    <!-- Klikkbare områder på bakgrunnsbildet -->
+
+
+
+    <div class="panel" id="panel">
+        <h2>Velg størrelse på bingoark</h2>
+
+        <div class="gridSettings">
+            <button onclick="createBoard(2)">2 x 2</button>
+            <button onclick="createBoard(3)">3 x 3</button>
+            <button onclick="createBoard(4)">4 x 4</button>
+            <button onclick="createBoard(5)">5 x 5</button>
+        </div>
+    </div>
+
+</div>
+
+<div class="panel" id="pedagogyPanel">
+
+    <h2>Velg pedagogisk modus</h2>
+
+   <div class="gridSettings">
+
+<button onclick="startAnimalTracks()">
+🐾 Dyrespor
+</button>
+
+<button onclick="startLetterHunt()">
+🔤 Bokstavjakt
+</button>
+
+<button onclick="startColorHunt()">
+🎨 Fargejakt
+</button>
+
+<button onclick="startMathHunt()">
+➕ Matte på tur
+</button>
+
+<button onclick="startNumberHunt()">
+🔢 Talljakt
+</button>
+
+<button onclick="startShapeHunt()">
+🔺 Former
+</button>
+
+<button onclick="startNatureBingo()">
+🌲 Naturbingo
+</button>
+
+<button onclick="startWeatherHunt()">
+☁️ Værjakt
+</button>
+
+<button onclick="startRhymingWords()">
+🗣️ Rimord
+</button>
+
+<button onclick="startEnglishWords()">
+🇬🇧 Engelske ord
+</button>
+
+<button onclick="startTrafficSigns()">
+🚸 Trafikkskilt
+</button>
+
+<button onclick="startTreasureHunt()">
+💎 Skattejakt
+</button>
+
+</div>
+
+</div>
+
+<div id="gameSelectScreen">
+
+    <div class="topBar">
+
+        <h1>Velg bingoark</h1>
+
+        <div class="topButtons">
+
+            <button class="backBtn"
+                onclick="closeGameSelect()">
+
+                Tilbake
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="savedBoardsList"></div>
+
+</div>
+
+<div id="boardScreen">
+
+<div class="topBar">
+
+    <h1>TurBingo Ark</h1>
+
+<div class="topButtons">
+
+    <button class="backBtn" onclick="goHome()">
+        Tilbake
+    </button>
+
+    <button class="saveBtn" onclick="manualSaveBoard()">
+        Lagre ark
+    </button>
+
+    <button class="printBtn" onclick="window.print()">
+        Print bingoark
+    </button>
+
+<button class="printBtn"
+    onclick="shareBoard()">
+
+    📤 Del bingoark
+</button>
+
+<button class="printBtn"
+    onclick="shareBoardAsImage()">
+
+    🖼️ Del som bilde
+</button>
+
+</div>
+
+</div>
+
+<div class="bingoGrid" id="bingoGrid"></div>
+
+</div>
+
+<div class="popupMenu" id="popupMenu">
+
+    <div class="popupContent">
+
+        <h2>Velg innhold</h2>
+
+        <button class="popupButton textChoice"
+            id="textChoiceBtn">
+
+            ✏️ Skriv tekst
+        </button>
+
+        <button class="popupButton cameraChoice"
+            id="cameraChoiceBtn">
+
+            📷 Ta bilde
+        </button>
+
+        <button class="popupButton libraryChoice"
+            id="libraryChoiceBtn">
+
+            🖼️ Velg motiv
+        </button>
+
+<button class="popupButton iconChoice"
+    id="iconChoiceBtn">
+
+    😀 Legg til ikon
+</button>
+
+        <button class="popupButton closeChoice"
+            onclick="closePopup()">
+
+            ❌ Lukk
+        </button>
+
+    </div>
+
+</div>
+
+<div class="libraryModal" id="libraryModal">
+
+    <div class="libraryContent">
+
+        <h2>Velg motiv</h2>
+
+        <div class="libraryGrid" id="libraryGrid"></div>
+
+        <button class="closeLibraryBtn"
+            onclick="closeLibrary()">
+
+            Lukk
+        </button>
+
+    </div>
+
+</div>
+
+<div class="libraryModal" id="iconModal">
+
+    <div class="libraryContent">
+
+        <h2>Velg ikon</h2>
+
+        <div class="iconGrid" id="iconGrid"></div>
+
+        <button class="closeLibraryBtn"
+            onclick="closeIcons()">
+
+            Lukk
+        </button>
+
+    </div>
+
+</div>
+
+<!-- TEKST MODAL -->
+
+<div class="popupMenu" id="textModal">
+
+    <div class="popupContent">
+
+        <h2>Skriv tekst</h2>
+
+        <input
+            type="text"
+            id="textInput"
+            placeholder="Hva skal finnes?"
+            style="
+                padding:14px;
+                border-radius:14px;
+                border:2px solid #ddd;
+                font-size:18px;
+            "
+        >
+
+        <button class="popupButton textChoice"
+            onclick="saveTextInput()">
+
+            Lagre tekst
+        </button>
+
+        <button class="popupButton closeChoice"
+            onclick="closeTextModal()">
+
+            Lukk
+        </button>
+
+    </div>
+
+</div>
+
+<!-- MELDING MODAL -->
+
+<div class="popupMenu" id="messageModal">
+
+    <div class="popupContent">
+
+        <h2 id="messageText"></h2>
+
+        <button class="popupButton libraryChoice"
+            onclick="closeMessageModal()">
+
+            OK
+        </button>
+
+    </div>
+
+</div>
+
+<!-- BINGO OVERLAY -->
+
+<div id="bingoOverlay">
+
+    <div class="bingoOverlayContent">
+
+        <h1>🎉 BINGO! 🎉</h1>
+
+        <p>Du fullførte brettet!</p>
+
+        <button class="bingoOverlayButton"
+            onclick="closeBingoOverlay()">
+
+            Fantastisk!
+        </button>
+
+    </div>
+
+</div>
+
+<script>
+
+const panel = document.getElementById("panel");
+const homeScreen = document.getElementById("homeScreen");
+const boardScreen = document.getElementById("boardScreen");
+const bingoGrid = document.getElementById("bingoGrid");
+
+const popupMenu =
+    document.getElementById("popupMenu");
+
+const textChoiceBtn =
+    document.getElementById("textChoiceBtn");
+
+const cameraChoiceBtn =
+    document.getElementById("cameraChoiceBtn");
+
+const libraryChoiceBtn =
+    document.getElementById("libraryChoiceBtn");
+
+const iconChoiceBtn =
+    document.getElementById("iconChoiceBtn");
+
+const textModal =
+    document.getElementById("textModal");
+
+const textInput =
+    document.getElementById("textInput");
+
+const messageModal =
+    document.getElementById("messageModal");
+
+const messageText =
+    document.getElementById("messageText");
+
+const bingoOverlay =
+    document.getElementById(
+        "bingoOverlay"
+    );
+
+let activeCell = null;
+let activeCellContent = null;
+
+const emojiLibrary = [
+
+"🌲","🍄","🦊","🐿️",
+"🐦","🌸","🍎","🐞",
+"☀️","🌈","🌻","🐝",
+"🚗","🚲","⛰️","🌊",
+"🍓","🐌","🪵","🍁"
+
+];
+
+const imageLibrary = [
+
+
+
+{
+    name:"Tre",
+    url:"https://images.unsplash.com/photo-1448375240586-882707db888b"
+},
+
+{
+    name:"Blomst",
+    url:"https://images.unsplash.com/photo-1490750967868-88aa4486c946"
+},
+
+{
+    name:"Stein",
+    url:"https://images.unsplash.com/photo-1506744038136-46273834b3fb"
+},
+
+{
+    name:"Fugl",
+    url:"https://images.unsplash.com/photo-1444464666168-49d633b86797"
+},
+
+{
+    name:"Fjell",
+    url:"https://images.unsplash.com/photo-1464822759023-fed622ff2c3b"
+},
+
+{
+    name:"Sopp",
+    url:"https://images.unsplash.com/photo-1501004318641-b39e6451bec6"
+},
+
+{
+    name:"Elv",
+    url:"https://images.unsplash.com/photo-1500530855697-b586d89ba3ee"
+},
+
+{
+    name:"Sommerfugl",
+    url:"https://images.unsplash.com/photo-1473773508845-188df298d2d1"
+},
+
+{
+    name:"Hund",
+    url:"https://images.unsplash.com/photo-1517849845537-4d257902454a"
+},
+
+{
+    name:"Katt",
+    url:"https://images.unsplash.com/photo-1518791841217-8f162f1e1131"
+}
+
+];
+
+const colorHuntColors = [
+
+{
+    name:"Rød",
+    color:"#ff4d4d"
+},
+
+{
+    name:"Blå",
+    color:"#4d8dff"
+},
+
+{
+    name:"Grønn",
+    color:"#4caf50"
+},
+
+{
+    name:"Gul",
+    color:"#ffd93d"
+},
+
+{
+    name:"Oransje",
+    color:"#ff9800"
+},
+
+{
+    name:"Lilla",
+    color:"#b366ff"
+},
+
+{
+    name:"Rosa",
+    color:"#ff7eb6"
+},
+
+{
+    name:"Brun",
+    color:"#8d6e63"
+},
+
+{
+    name:"Svart",
+    color:"#333333"
+},
+
+{
+    name:"Hvit",
+    color:"#f5f5f5"
+}
+
+];
+
+const animalTracks = [
+
+"🐾 Hundespor",
+"🐾 Kattespor",
+"🐾 Fuglespor",
+"🐾 Maur",
+"🐾 Snegle",
+"🐾 Edderkopp",
+"🐾 Sommerfugl",
+"🐾 Ekorn",
+"🐾 Insekt"
+
+];
+
+const letterHuntLetters = [
+
+"A","B","C","D","E","F",
+"G","H","I","J","K","L",
+"M","N","O","P","Q","R",
+"S","T","U","V","W","X",
+"Y","Z","Æ","Ø","Å"
+
+];
+
+const numberHuntNumbers = [
+
+"1","2","3",
+"4","5","6",
+"7","8","9"
+
+];
+
+const shapeHuntShapes = [
+
+"🔺 Trekant",
+"🟦 Firkant",
+"⚪ Sirkel",
+"⭐ Stjerne",
+"❤️ Hjerte",
+"⬛ Rektangel",
+"🔷 Diamant",
+"🟠 Oval",
+"⬟ Femkant"
+
+];
+
+const natureBingoItems = [
+
+"🌲 Tre",
+"🍄 Sopp",
+"🪨 Stein",
+"🌸 Blomst",
+"🐦 Fugl",
+"🍁 Blad",
+"🐞 Marihøne",
+"☀️ Sol",
+"🌈 Regnbue"
+
+];
+
+const weatherItems = [
+
+"☀️ Sol",
+"☁️ Sky",
+"🌧️ Regn",
+"💨 Vind",
+"🌈 Regnbue",
+"❄️ Snø",
+"🌙 Måne",
+"⚡ Lyn",
+"🌫️ Tåke"
+
+];
+
+const rhymingWords = [
+
+"Katt - hatt",
+"Mus - hus",
+"Sol - stol",
+"Bil - pil",
+"Tre - sne",
+"Mat - hatt",
+"Ko - sko",
+"Bok - sokk",
+"Lam - kam"
+
+];
+
+const englishWords = [
+
+"🍎 Apple",
+"🐶 Dog",
+"🐱 Cat",
+"🚗 Car",
+"☀️ Sun",
+"🌲 Tree",
+"⚽ Ball",
+"🏠 House",
+"🐦 Bird"
+
+];
+
+const trafficSigns = [
+
+"🛑 Stopp",
+"🚸 Skole",
+"🚳 Forbudt",
+"🚲 Sykkel",
+"⚠️ Fare",
+"🚦 Trafikklys",
+"🅿️ Parkering",
+"🚶 Gangfelt",
+"⛔ Innkjøring forbudt"
+
+];
+
+const treasureItems = [
+
+"💎 Skatt",
+"🪙 Mynt",
+"🗝️ Nøkkel",
+"📦 Kiste",
+"🪶 Fjær",
+"🍂 Gullblad",
+"🔮 Krystall",
+"🧭 Kompass",
+"🏴 Piratflagg"
+
+];
+
+let currentBoardSize = 0;
+let bingoAchieved = false;
+let playMode = false;
+let requirePhotoProof = false;
+
+let gameProgress = [];
+
+let currentBoardId = null;
+
+window.onload = function(){
+
+    const savedBoard =
+        localStorage.getItem("turbingo_board");
+
+    const savedSize =
+        localStorage.getItem("turbingo_size");
+
+    if(savedBoard && savedSize){
+
+        createBoard(parseInt(savedSize));
+
+        setTimeout(function(){
+
+            const boardData =
+                JSON.parse(savedBoard);
+
+const savedProgress =
+    localStorage.getItem(
+        "turbingo_progress"
+    );
+
+if(savedProgress){
+
+    gameProgress =
+        JSON.parse(savedProgress);
+
+}else{
+
+    gameProgress = [];
+}
+
+
+            const cells =
+                document.querySelectorAll(".bingoCell");
+
+            boardData.forEach(function(data, index){
+
+                const cell = cells[index];
+
+                const cellContent =
+                    cell.querySelector(".cellContent");
+
+                if(data.type === "text"){
+
+                    cellContent.className =
+                        "cellContent";
+
+                    cellContent.innerHTML =
+                        `<div class="cellText">
+                            ${data.value}
+                        </div>`;
+                }
+
+                if(data.type === "image"){
+
+                    cellContent.className =
+                        "cellContent";
+
+                    cellContent.innerHTML =
+                        `<img src="${data.value}"
+                        class="cellImage">`;
+                }
+            });
+
+        }, 100);
+    }
+}
+function openPanel(){
+
+    playMode = false;
+
+    const pedagogyPanel =
+        document.getElementById(
+            "pedagogyPanel"
+        );
+
+    /* Lukk pedagogisk panel */
+
+    pedagogyPanel.style.display = "none";
+
+    /* Toggle vanlig panel */
+
+    if(panel.style.display === "block"){
+
+        panel.style.display = "none";
+
+    }else{
+
+        panel.style.display = "block";
+    }
+}
+function openPedagogyPanel(){
+
+    const pedagogyPanel =
+        document.getElementById(
+            "pedagogyPanel"
+        );
+
+    /* Lukk vanlig panel */
+
+    panel.style.display = "none";
+
+    /* Toggle pedagogisk panel */
+
+    if(pedagogyPanel.style.display === "block"){
+
+        pedagogyPanel.style.display = "none";
+
+    }else{
+
+        pedagogyPanel.style.display = "block";
+    }
+}
+
+function goHome(){
+    homeScreen.style.display = "block";
+    boardScreen.style.display = "none";
+    panel.style.display = "none";
+requirePhotoProof = false;
+}
+
+function openGameSelect(){
+
+    const savedBoards =
+        JSON.parse(
+
+            localStorage.getItem(
+                "turbingo_saved_boards"
+            )
+
+        ) || [];
+
+    if(savedBoards.length === 0){
+
+        showMessage(
+            "Ingen lagrede ark funnet."
+        );
+
+        return;
+    }
+
+    homeScreen.style.display =
+        "none";
+
+    boardScreen.style.display =
+        "none";
+
+    document.getElementById(
+        "gameSelectScreen"
+    ).style.display = "block";
+
+    const savedBoardsList =
+        document.getElementById(
+            "savedBoardsList"
+        );
+
+    savedBoardsList.innerHTML = "";
+
+    savedBoards.forEach(function(board){
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "savedBoardItem";
+
+        div.innerHTML =
+            `
+            <h2>
+                🎯 Bingoark
+            </h2>
+
+            <p>
+                ${board.size} x ${board.size}
+            </p>
+
+            <p>
+                ${board.created}
+            </p>
+            `;
+
+        div.addEventListener("click", function(){
+
+            currentBoardId =
+                board.id;
+
+            startSavedGame(board.id);
+        });
+
+        savedBoardsList.appendChild(div);
+    });
+}
+function closeGameSelect(){
+
+    document.getElementById(
+        "gameSelectScreen"
+    ).style.display = "none";
+
+    homeScreen.style.display =
+        "block";
+}
+
+function startSavedGame(boardId){
+
+    const savedBoards =
+        JSON.parse(
+
+            localStorage.getItem(
+                "turbingo_saved_boards"
+            )
+
+        ) || [];
+
+    const board =
+        savedBoards.find(function(item){
+
+            return item.id === boardId;
+        });
+
+    if(!board){
+
+        showMessage(
+            "Fant ikke bingoark."
+        );
+
+        return;
+    }
+
+    document.getElementById(
+        "gameSelectScreen"
+    ).style.display = "none";
+
+    playMode = true;
+
+    createBoard(board.size);
+
+    gameProgress =
+        board.progress || [];
+
+    const cells =
+        document.querySelectorAll(
+            ".bingoCell"
+        );
+
+    board.data.forEach(function(data, index){
+
+        const cell =
+            cells[index];
+
+        const cellContent =
+            cell.querySelector(
+                ".cellContent"
+            );
+
+        if(data.type === "text"){
+
+            cellContent.className =
+                "cellContent";
+
+            cellContent.innerHTML =
+                `<div class="cellText">
+                    ${data.value}
+                </div>`;
+        }
+
+        if(data.type === "image"){
+
+            cellContent.className =
+                "cellContent";
+
+            cellContent.innerHTML =
+                `<img src="${data.value}"
+                class="cellImage">`;
+        }
+    });
+
+    startGameInteractions();
+}
+
+function startGame(){
+
+    const savedBoard =
+        localStorage.getItem("turbingo_board");
+
+    const savedSize =
+        localStorage.getItem("turbingo_size");
+
+    if(!savedBoard || !savedSize){
+
+        showMessage("Ingen lagret bingoark funnet.");
+
+        return;
+    }
+
+    playMode = true;
+
+    createBoard(parseInt(savedSize));
+
+    const boardData =
+    JSON.parse(savedBoard);
+
+const savedProgress =
+    localStorage.getItem(
+        "turbingo_progress"
+    );
+
+if(savedProgress){
+
+    gameProgress =
+        JSON.parse(savedProgress);
+
+}else{
+
+    gameProgress = [];
+}
+
+const cells =
+    document.querySelectorAll(".bingoCell");
+
+    boardData.forEach(function(data, index){
+
+        const cell = cells[index];
+
+        const cellContent =
+            cell.querySelector(".cellContent");
+
+        if(data.type === "text"){
+
+            cellContent.className =
+                "cellContent";
+
+            cellContent.innerHTML =
+                `<div class="cellText">
+                    ${data.value}
+                </div>`;
+        }
+
+        if(data.type === "image"){
+
+            cellContent.className =
+                "cellContent";
+
+            cellContent.innerHTML =
+                `<img src="${data.value}"
+                class="cellImage">`;
+        }
+
+if(gameProgress[index]){
+
+    cell.classList.add(
+        "completed"
+    );
+
+    if(gameProgress[index].image){
+
+        cell.innerHTML =
+            `
+            <img
+                src="${gameProgress[index].image}"
+                class="cellImage"
+            >
+            `;
+    }
+}
+
+cell.addEventListener("click", function(){
+
+    if(requirePhotoProof){
+
+        const fileInput =
+            document.createElement("input");
+
+        fileInput.type = "file";
+
+        fileInput.accept = "image/*";
+
+        fileInput.capture = "environment";
+
+        fileInput.click();
+
+        fileInput.addEventListener("change", function(e){
+
+            const file =
+                e.target.files[0];
+
+            if(file){
+
+                const imageUrl =
+                    URL.createObjectURL(file);
+
+                cell.innerHTML =
+                    `
+                    <img
+                        src="${imageUrl}"
+                        class="cellImage"
+                    >
+                    `;
+
+cell.classList.add(
+    "completed"
+);
+
+gameProgress[index] = {
+
+    completed:true,
+
+    image:imageUrl
+};
+
+localStorage.setItem(
+
+    "turbingo_progress",
+
+    JSON.stringify(gameProgress)
+);
+
+checkBingo();
+            }
+        });
+
+        return;
+    }
+
+    if(cell.classList.contains("completed")){
+
+    cell.classList.remove(
+        "completed"
+    );
+
+    gameProgress[index] = null;
+
+}else{
+
+    cell.classList.add(
+        "completed"
+    );
+
+    gameProgress[index] = {
+
+        completed:true
+    };
+}
+
+localStorage.setItem(
+
+    "turbingo_progress",
+
+    JSON.stringify(gameProgress)
+);
+
+    checkBingo();
+});
+    });
+}
+
+function createBoard(size){
+
+    homeScreen.style.display = "none";
+    boardScreen.style.display = "block";
+
+    bingoGrid.innerHTML = "";
+
+    bingoGrid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+
+currentBoardSize = size;
+bingoAchieved = false;
+
+gameProgress = [];
+
+localStorage.removeItem(
+    "turbingo_progress"
+);
+
+    const total = size * size;
+
+    for(let i = 0; i < total; i++){
+
+    const cell = document.createElement("div");
+    cell.className = "bingoCell";
+
+    const cellContent = document.createElement("div");
+
+    cellContent.className =
+        "cellContent emptyCell";
+
+    cellContent.innerText = "+";
+
+    cell.appendChild(cellContent);
+
+cell.addEventListener("click", function(){
+
+    if(playMode){
+
+        return;
+    }
+
+    activeCell = cell;
+    activeCellContent = cellContent;
+
+    popupMenu.style.display = "flex";
+});
+
+    bingoGrid.appendChild(cell);
+}
+
+}
+
+    
+
+function checkBingo(){
+
+    if(bingoAchieved) return;
+
+    const cells =
+        document.querySelectorAll(".bingoCell");
+
+    let board = [];
+
+    for(let i = 0; i < currentBoardSize; i++){
+
+        board[i] = [];
+
+        for(let j = 0; j < currentBoardSize; j++){
+
+            const index =
+                i * currentBoardSize + j;
+
+            board[i][j] =
+                cells[index].classList.contains("completed");
+        }
+    }
+
+    let bingo = false;
+
+/* 2x2 og 3x3 = fullt brett */
+
+if(currentBoardSize <= 3){
+
+    let allCompleted = true;
+
+    for(let i = 0; i < currentBoardSize; i++){
+
+        for(let j = 0; j < currentBoardSize; j++){
+
+            if(!board[i][j]){
+
+                allCompleted = false;
+            }
+        }
+    }
+
+    if(allCompleted){
+
+        bingo = true;
+    }
+
+}else{
+
+    /* Sjekk rader */
+    for(let i = 0; i < currentBoardSize; i++){
+
+        let rowComplete = true;
+
+        for(let j = 0; j < currentBoardSize; j++){
+
+            if(!board[i][j]){
+                rowComplete = false;
+            }
+        }
+
+        if(rowComplete){
+            bingo = true;
+        }
+    }
+
+    /* Sjekk kolonner */
+    for(let j = 0; j < currentBoardSize; j++){
+
+        let columnComplete = true;
+
+        for(let i = 0; i < currentBoardSize; i++){
+
+            if(!board[i][j]){
+                columnComplete = false;
+            }
+        }
+
+        if(columnComplete){
+            bingo = true;
+        }
+    }
+
+    /* Sjekk diagonal */
+    let diagonal1 = true;
+
+    for(let i = 0; i < currentBoardSize; i++){
+
+        if(!board[i][i]){
+            diagonal1 = false;
+        }
+    }
+
+    if(diagonal1){
+        bingo = true;
+    }
+
+    /* Sjekk motsatt diagonal */
+    let diagonal2 = true;
+
+    for(let i = 0; i < currentBoardSize; i++){
+
+        if(!board[i][currentBoardSize - 1 - i]){
+            diagonal2 = false;
+        }
+    }
+
+    if(diagonal2){
+        bingo = true;
+    }
+}
+
+    if(bingo){
+
+        bingoAchieved = true;
+
+        setTimeout(function(){
+
+            showBingoOverlay();
+
+        }, 200);
+    }
+}
+
+function saveBoard(){
+
+    const cells =
+        document.querySelectorAll(".bingoCell");
+
+    let boardData = [];
+
+    cells.forEach(function(cell){
+
+        const content =
+            cell.querySelector(".cellContent");
+
+        const hasImage =
+            content.querySelector("img");
+
+        let type = "empty";
+        let value = "";
+
+        if(hasImage){
+
+            type = "image";
+
+            value =
+                hasImage.src;
+
+        }else{
+
+            const text =
+                content.innerText;
+
+            if(text !== "+"){
+
+                type = "text";
+                value = text;
+            }
+        }
+
+        boardData.push({
+
+            type:type,
+            value:value
+        });
+    });
+
+    let savedBoards =
+        JSON.parse(
+
+            localStorage.getItem(
+                "turbingo_saved_boards"
+            )
+
+        ) || [];
+
+    if(currentBoardId === null){
+
+        currentBoardId =
+            Date.now();
+    }
+
+    const boardObject = {
+
+        id:currentBoardId,
+
+        size:currentBoardSize,
+
+        data:boardData,
+
+        progress:gameProgress,
+
+        created:
+            new Date().toLocaleString()
+    };
+
+    const existingIndex =
+        savedBoards.findIndex(function(board){
+
+            return board.id === currentBoardId;
+        });
+
+    if(existingIndex >= 0){
+
+        savedBoards[existingIndex] =
+            boardObject;
+
+    }else{
+
+        savedBoards.push(boardObject);
+    }
+
+    localStorage.setItem(
+
+        "turbingo_saved_boards",
+
+        JSON.stringify(savedBoards)
+    );
+}
+function closePopup(){
+
+    popupMenu.style.display = "none";
+}
+
+function openTextModal(){
+
+    textInput.value = "";
+
+    textModal.style.display = "flex";
+}
+
+function closeTextModal(){
+
+    textModal.style.display = "none";
+}
+
+function saveTextInput(){
+
+    const text = textInput.value.trim();
+
+    if(text){
+
+        activeCellContent.className =
+            "cellContent";
+
+        activeCellContent.innerHTML =
+            `<div class="cellText">${text}</div>`;
+
+        saveBoard();
+    }
+
+    closeTextModal();
+    closePopup();
+}
+
+function showMessage(message){
+
+    messageText.innerText = message;
+
+    messageModal.style.display = "flex";
+}
+
+function closeMessageModal(){
+
+    messageModal.style.display = "none";
+}
+
+function showBingoOverlay(){
+
+    bingoOverlay.style.display = "flex";
+}
+
+function closeBingoOverlay(){
+
+    bingoOverlay.style.display = "none";
+}
+
+/* SKRIV TEKST */
+
+textChoiceBtn.addEventListener("click", function(){
+
+    openTextModal();
+});
+/* TA BILDE */
+
+cameraChoiceBtn.addEventListener("click", function(){
+
+    const fileInput =
+        document.createElement("input");
+
+    fileInput.type = "file";
+    fileInput.accept = "image/*";
+    fileInput.capture = "environment";
+
+    fileInput.click();
+
+    fileInput.addEventListener("change", function(e){
+
+        const file = e.target.files[0];
+
+        if(file){
+
+            const imageUrl =
+                URL.createObjectURL(file);
+
+            activeCellContent.className =
+                "cellContent";
+
+            activeCellContent.innerHTML =
+                `<img src="${imageUrl}"
+                class="cellImage">`;
+
+            saveBoard();
+        }
+    });
+
+    closePopup();
+});
+
+/* VELG MOTIV */
+
+libraryChoiceBtn.addEventListener("click", function(){
+
+    openLibrary();
+});
+
+iconChoiceBtn.addEventListener("click", function(){
+
+    openIcons();
+});
+
+const libraryModal =
+    document.getElementById("libraryModal");
+
+const libraryGrid =
+    document.getElementById("libraryGrid");
+
+function openLibrary(){
+
+    libraryGrid.innerHTML = "";
+
+    imageLibrary.forEach(function(item){
+
+        const div =
+            document.createElement("div");
+
+        div.className = "libraryItem";
+
+        div.innerHTML =
+            `<img src="${item.url}">`;
+
+        div.addEventListener("click", function(){
+
+            activeCellContent.className =
+                "cellContent";
+
+            activeCellContent.innerHTML =
+                `<img src="${item.url}"
+                class="cellImage">`;
+
+            saveBoard();
+
+            closeLibrary();
+            closePopup();
+        });
+
+        libraryGrid.appendChild(div);
+    });
+
+    libraryModal.style.display = "flex";
+}
+
+function closeLibrary(){
+
+    libraryModal.style.display = "none";
+}
+
+const iconModal =
+    document.getElementById("iconModal");
+
+const iconGrid =
+    document.getElementById("iconGrid");
+
+function openIcons(){
+
+    iconGrid.innerHTML = "";
+
+    emojiLibrary.forEach(function(icon){
+
+        const div =
+            document.createElement("div");
+
+        div.className = "iconItem";
+
+        div.innerHTML = icon;
+
+        div.addEventListener("click", function(){
+
+            activeCellContent.className =
+                "cellContent";
+
+            activeCellContent.innerHTML =
+                `<div style="
+                    font-size:42px;
+                ">
+                    ${icon}
+                </div>`;
+
+            saveBoard();
+
+            closeIcons();
+            closePopup();
+        });
+
+        iconGrid.appendChild(div);
+    });
+
+    iconModal.style.display = "flex";
+}
+
+function closeIcons(){
+
+    iconModal.style.display = "none";
+}
+
+function startColorHunt(){
+
+    playMode = true;
+requirePhotoProof = true;
+
+    const pedagogyPanel =
+        document.getElementById(
+            "pedagogyPanel"
+        );
+
+    pedagogyPanel.style.display =
+        "none";
+
+    createBoard(3);
+
+    const cells =
+        document.querySelectorAll(
+            ".bingoCell"
+        );
+
+    cells.forEach(function(cell, index){
+
+        const colorData =
+            colorHuntColors[index];
+
+        const content =
+            cell.querySelector(
+                ".cellContent"
+            );
+
+        content.className =
+            "cellContent";
+
+        content.innerHTML =
+            `
+            <div style="
+                width:100%;
+                height:100%;
+                background:${colorData.color};
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-size:20px;
+                font-weight:bold;
+                color:white;
+                border-radius:10px;
+                text-shadow:
+                    0 2px 4px rgba(0,0,0,0.4);
+            ">
+                ${colorData.name}
+            </div>
+            `;
+
+        
+    });
+}
+
+function startAnimalTracks(){
+
+    playMode = true;
+
+    requirePhotoProof = true;
+
+    const pedagogyPanel =
+        document.getElementById(
+            "pedagogyPanel"
+        );
+
+    pedagogyPanel.style.display =
+        "none";
+
+    createBoard(3);
+
+    const cells =
+        document.querySelectorAll(
+            ".bingoCell"
+        );
+
+    cells.forEach(function(cell, index){
+
+        const track =
+            animalTracks[index];
+
+        const content =
+            cell.querySelector(
+                ".cellContent"
+            );
+
+        content.className =
+            "cellContent";
+
+        content.innerHTML =
+            `
+            <div style="
+                width:100%;
+                height:100%;
+                background:
+                    linear-gradient(
+                        to bottom,
+                        #fff3d6,
+                        #e8c999
+                    );
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                text-align:center;
+                font-size:18px;
+                font-weight:bold;
+                color:#5d4037;
+                border-radius:10px;
+                padding:8px;
+            ">
+                ${track}
+            </div>
+            `;
+    });
+}
+
+function startLetterHunt(){
+
+    playMode = true;
+
+    requirePhotoProof = true;
+
+    const pedagogyPanel =
+        document.getElementById(
+            "pedagogyPanel"
+        );
+
+    pedagogyPanel.style.display =
+        "none";
+
+    createBoard(3);
+
+const shuffledLetters = [
+
+    ...letterHuntLetters
+
+].sort(function(){
+
+    return Math.random() - 0.5;
+});
+
+    const cells =
+        document.querySelectorAll(
+            ".bingoCell"
+        );
+
+    cells.forEach(function(cell, index){
+
+const letter =
+    shuffledLetters[index];
+
+        const content =
+            cell.querySelector(
+                ".cellContent"
+            );
+
+        content.className =
+            "cellContent";
+
+        content.innerHTML =
+            `
+            <div style="
+                width:100%;
+                height:100%;
+                background:
+                    linear-gradient(
+                        to bottom,
+                        #dff0ff,
+                        #9fd3ff
+                    );
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                text-align:center;
+                font-size:52px;
+                font-weight:900;
+                color:#1e3a5f;
+                border-radius:10px;
+                text-shadow:
+                    0 2px 4px rgba(255,255,255,0.5);
+            ">
+                ${letter}
+            </div>
+            `;
+    });
+}
+
+function startMathHunt(){
+
+    playMode = true;
+
+    requirePhotoProof = true;
+
+    const pedagogyPanel =
+        document.getElementById(
+            "pedagogyPanel"
+        );
+
+    pedagogyPanel.style.display =
+        "none";
+
+    createBoard(3);
+
+    const cells =
+        document.querySelectorAll(
+            ".bingoCell"
+        );
+
+    cells.forEach(function(cell){
+
+        const number1 =
+            Math.floor(Math.random() * 5) + 1;
+
+        const number2 =
+            Math.floor(Math.random() * 5) + 1;
+
+        const operators = ["+", "-"];
+
+        const operator =
+            operators[
+                Math.floor(
+                    Math.random() *
+                    operators.length
+                )
+            ];
+
+        let taskText =
+            `${number1} ${operator} ${number2}`;
+
+        const content =
+            cell.querySelector(
+                ".cellContent"
+            );
+
+        content.className =
+            "cellContent";
+
+        content.innerHTML =
+            `
+            <div style="
+                width:100%;
+                height:100%;
+                background:
+                    linear-gradient(
+                        to bottom,
+                        #fff0d9,
+                        #ffd18a
+                    );
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                text-align:center;
+                font-size:42px;
+                font-weight:900;
+                color:#7a3e00;
+                border-radius:10px;
+                text-shadow:
+                    0 2px 4px rgba(255,255,255,0.5);
+            ">
+                ${taskText}
+            </div>
+            `;
+    });
+}
+
+function setupPedagogyBoard(dataList, bg1, bg2, textColor){
+
+    playMode = true;
+
+    requirePhotoProof = true;
+
+    const pedagogyPanel =
+        document.getElementById(
+            "pedagogyPanel"
+        );
+
+    pedagogyPanel.style.display =
+        "none";
+
+    createBoard(3);
+
+    const cells =
+        document.querySelectorAll(
+            ".bingoCell"
+        );
+
+    cells.forEach(function(cell, index){
+
+        const item =
+            dataList[index];
+
+        const content =
+            cell.querySelector(
+                ".cellContent"
+            );
+
+        content.className =
+            "cellContent";
+
+        content.innerHTML =
+            `
+            <div style="
+                width:100%;
+                height:100%;
+                background:
+                    linear-gradient(
+                        to bottom,
+                        ${bg1},
+                        ${bg2}
+                    );
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                text-align:center;
+                font-size:22px;
+                font-weight:bold;
+                color:${textColor};
+                border-radius:10px;
+                padding:8px;
+            ">
+                ${item}
+            </div>
+            `;
+    });
+}
+
+function startNumberHunt(){
+
+    setupPedagogyBoard(
+        numberHuntNumbers,
+        "#fff4d6",
+        "#ffd166",
+        "#7a3e00"
+    );
+}
+
+function startShapeHunt(){
+
+    setupPedagogyBoard(
+        shapeHuntShapes,
+        "#e3f2fd",
+        "#90caf9",
+        "#0d47a1"
+    );
+}
+
+function startNatureBingo(){
+
+    setupPedagogyBoard(
+        natureBingoItems,
+        "#e8f5e9",
+        "#81c784",
+        "#1b5e20"
+    );
+}
+
+function startWeatherHunt(){
+
+    setupPedagogyBoard(
+        weatherItems,
+        "#ede7f6",
+        "#b39ddb",
+        "#311b92"
+    );
+}
+
+function startRhymingWords(){
+
+    setupPedagogyBoard(
+        rhymingWords,
+        "#fff3e0",
+        "#ffb74d",
+        "#e65100"
+    );
+}
+
+function startEnglishWords(){
+
+    setupPedagogyBoard(
+        englishWords,
+        "#e1f5fe",
+        "#4fc3f7",
+        "#01579b"
+    );
+}
+
+function startTrafficSigns(){
+
+    setupPedagogyBoard(
+        trafficSigns,
+        "#ffebee",
+        "#ef9a9a",
+        "#b71c1c"
+    );
+}
+
+function startTreasureHunt(){
+
+    setupPedagogyBoard(
+        treasureItems,
+        "#fff8e1",
+        "#ffd54f",
+        "#ff6f00"
+    );
+}
+
+function manualSaveBoard(){
+
+if(currentBoardId === null){
+
+    currentBoardId =
+        Date.now();
+}
+
+    saveBoard();
+
+    showMessage("✅ Bingoark lagret!");
+}
+
+async function shareBoard(){
+
+    const cells =
+        document.querySelectorAll(".bingoCell");
+
+    let contentList = [];
+
+    cells.forEach(function(cell){
+
+        const content =
+            cell.querySelector(".cellContent");
+
+        const text =
+            content.innerText.trim();
+
+       if(text && text !== "+"){
+
+    contentList.push(text);
+}
+
+});
+
+    const shareText =
+`🎯 TurBingo
+
+Størrelse:
+${currentBoardSize}x${currentBoardSize}
+
+Innhold:
+${contentList.join(", ")}`;
+
+    if(navigator.share){
+
+        try{
+
+            await navigator.share({
+
+                title:"TurBingo",
+
+                text:shareText
+            });
+
+        }catch(error){
+
+            console.log(error);
+        }
+
+    }else{
+
+        navigator.clipboard.writeText(
+            shareText
+        );
+
+        showMessage(
+            "📋 Bingoark kopiert!"
+        );
+    }
+}
+
+async function shareBoardAsImage(){
+
+    const board =
+        document.getElementById(
+            "boardScreen"
+        );
+
+    try{
+
+        const canvas =
+            await html2canvas(board, {
+
+                backgroundColor:"#ffffff",
+
+                scale:2
+            });
+
+        canvas.toBlob(async function(blob){
+
+            const file =
+                new File(
+
+                    [blob],
+
+                    "turbingo.png",
+
+                    {
+                        type:"image/png"
+                    }
+                );
+
+            if(
+                navigator.canShare &&
+                navigator.canShare({
+                    files:[file]
+                })
+            ){
+
+                await navigator.share({
+
+                    title:"TurBingo",
+
+                    text:
+                        "🎯 Se bingoarket mitt!",
+
+                    files:[file]
+                });
+
+            }else{
+
+                const imageUrl =
+                    URL.createObjectURL(blob);
+
+                const link =
+                    document.createElement("a");
+
+                link.href = imageUrl;
+
+                link.download =
+                    "turbingo.png";
+
+                link.click();
+
+                showMessage(
+                    "🖼️ Bildet ble lastet ned!"
+                );
+            }
+
+        });
+
+    }catch(error){
+
+        console.log(error);
+
+        showMessage(
+            "Kunne ikke dele bilde."
+        );
+    }
+}
+
+
+</script>
+
+</body>
+</html>
