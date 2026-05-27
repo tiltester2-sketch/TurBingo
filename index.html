@@ -1760,6 +1760,7 @@ let requirePhotoProof = false;
 let gameProgress = [];
 
 let currentBoardId = null;
+let currentBoardName = "Mitt bingoark";
 
 const clickSound =
     document.getElementById(
@@ -1955,8 +1956,8 @@ clickSound.play();
         div.innerHTML =
     `
     <h2>
-        🎯 Bingoark
-    </h2>
+    🎯 ${board.name || "Mitt bingoark"}
+</h2>
 
     <p>
         ${board.size} x ${board.size}
@@ -2090,6 +2091,9 @@ function startSavedGame(boardId){
     ).style.display = "none";
 
     playMode = true;
+
+currentBoardName =
+    board.name || "Mitt bingoark";
 
 requirePhotoProof = true;
 
@@ -2709,17 +2713,19 @@ function saveBoard(){
 
     const boardObject = {
 
-        id:currentBoardId,
+    id:currentBoardId,
 
-        size:currentBoardSize,
+    name:currentBoardName,
 
-        data:boardData,
+    size:currentBoardSize,
 
-        progress:gameProgress,
+    data:boardData,
 
-        created:
-            new Date().toLocaleString()
-    };
+    progress:gameProgress,
+
+    created:
+        new Date().toLocaleString()
+};
 
     const existingIndex =
         savedBoards.findIndex(function(board){
@@ -3370,9 +3376,23 @@ if(currentBoardId === null){
         Date.now();
 }
 
-    saveBoard();
+   const boardName =
+    prompt(
+        "Gi bingoarket et navn:",
+        currentBoardName
+    );
 
-    showMessage("✅ Bingoark lagret!");
+if(boardName){
+
+    currentBoardName =
+        boardName.trim();
+}
+
+saveBoard();
+
+showMessage(
+    "✅ Bingoark lagret!"
+);
 }
 
 async function shareBoard(){
