@@ -428,6 +428,61 @@ animation:
     background:#f3fbff;
 }
 
+.savedBoardActions{
+
+    display:flex;
+
+    gap:10px;
+
+    margin-top:14px;
+}
+
+.playSavedBtn,
+.deleteSavedBtn{
+
+    flex:1;
+
+    border:none;
+
+    padding:12px;
+
+    border-radius:14px;
+
+    font-size:16px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    color:white;
+
+    transition:0.2s;
+}
+
+.playSavedBtn{
+
+    background:#4caf50;
+}
+
+.playSavedBtn:hover{
+
+    transform:scale(1.03);
+
+    background:#43a047;
+}
+
+.deleteSavedBtn{
+
+    background:#ff5252;
+}
+
+.deleteSavedBtn:hover{
+
+    transform:scale(1.03);
+
+    background:#e53935;
+}
+
 #boardScreen{
 
     display:none;
@@ -1898,31 +1953,102 @@ clickSound.play();
             "savedBoardItem";
 
         div.innerHTML =
-            `
-            <h2>
-                🎯 Bingoark
-            </h2>
+    `
+    <h2>
+        🎯 Bingoark
+    </h2>
 
-            <p>
-                ${board.size} x ${board.size}
-            </p>
+    <p>
+        ${board.size} x ${board.size}
+    </p>
 
-            <p>
-                ${board.created}
-            </p>
-            `;
+    <p>
+        ${board.created}
+    </p>
 
-        div.addEventListener("click", function(){
+    <div class="savedBoardActions">
 
-            currentBoardId =
-                board.id;
+        <button class="playSavedBtn">
 
-            startSavedGame(board.id);
-        });
+            ▶ Spill
+        </button>
+
+        <button class="deleteSavedBtn">
+
+            🗑️ Slett
+        </button>
+
+    </div>
+    `;
+
+        const playButton =
+    div.querySelector(
+        ".playSavedBtn"
+    );
+
+playButton.addEventListener(
+    "click",
+
+    function(){
+
+        currentBoardId =
+            board.id;
+
+        startSavedGame(board.id);
+    }
+);
+
+const deleteButton =
+    div.querySelector(
+        ".deleteSavedBtn"
+    );
+
+deleteButton.addEventListener(
+    "click",
+
+    function(e){
+
+        e.stopPropagation();
+
+        deleteBoard(board.id);
+    }
+);
 
         savedBoardsList.appendChild(div);
     });
 }
+
+function deleteBoard(boardId){
+
+    let savedBoards =
+        JSON.parse(
+
+            localStorage.getItem(
+                "turbingo_saved_boards"
+            )
+
+        ) || [];
+
+    savedBoards =
+        savedBoards.filter(function(board){
+
+            return board.id !== boardId;
+        });
+
+    localStorage.setItem(
+
+        "turbingo_saved_boards",
+
+        JSON.stringify(savedBoards)
+    );
+
+    openGameSelect();
+
+    showMessage(
+        "🗑️ Bingoark slettet"
+    );
+}
+
 function closeGameSelect(){
 
     document.getElementById(
