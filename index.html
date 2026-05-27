@@ -2037,13 +2037,26 @@ if(gameProgress[index]){
     cellContent.className =
         "cellContent";
 
-    cellContent.innerHTML +=
-    `
-    <img
-        src="${gameProgress[index].image}"
-        class="proofImage"
-    >
-    `;
+    const oldProof =
+    cell.querySelector(
+        ".proofImage"
+    );
+
+if(oldProof){
+
+    oldProof.remove();
+}
+
+const proofImage =
+    document.createElement("img");
+
+proofImage.src =
+    gameProgress[index].image;
+
+proofImage.className =
+    "proofImage";
+
+cell.appendChild(proofImage);
 }
         }
 
@@ -2085,14 +2098,25 @@ const cellContent =
 cellContent.className =
     "cellContent";
 
-cellContent.innerHTML +=
-    `
-    <img
-        src="${imageUrl}"
-        class="proofImage"
-    >
-    `;
-                            cell.classList.add(
+const oldProof =
+    cell.querySelector(
+        ".proofImage"
+    );
+
+if(oldProof){
+
+    oldProof.remove();
+}
+
+const proofImage =
+    document.createElement("img");
+
+proofImage.src = imageUrl;
+
+proofImage.className =
+    "proofImage";
+
+cell.appendChild(proofImage);                            cell.classList.add(
                                 "completed"
                             );
 
