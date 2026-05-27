@@ -1530,6 +1530,12 @@ position:relative;
         type="audio/mpeg">
 </audio>
 
+<audio id="natureSound" loop>
+    <source
+        src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=forest-with-small-river-birds-and-nature-field-recording-6735.mp3"
+        type="audio/mpeg">
+</audio>
+
 
 <div id="homeScreen">
 
@@ -2282,7 +2288,32 @@ const bingoSound =
         "bingoSound"
     );
 
+const natureSound =
+    document.getElementById(
+        "natureSound"
+    );
+
+natureSound.volume = 0.12;
+
 window.onload = function(){
+
+document.body.addEventListener(
+    "click",
+
+    function(){
+
+        natureSound.play().catch(function(error){
+
+    console.log(
+        "Naturlyd kunne ikke startes",
+        error
+    );
+});
+
+    },
+
+    { once:true }
+);
 
     const savedBoard =
         localStorage.getItem("turbingo_board");
