@@ -1530,10 +1530,12 @@ position:relative;
         type="audio/mpeg">
 </audio>
 
-<audio id="natureSound" loop>
+<audio id="natureSound" loop preload="auto">
+
     <source
-        src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=forest-with-small-river-birds-and-nature-field-recording-6735.mp3"
+        src="https://assets.mixkit.co/active_storage/sfx/212/212-preview.mp3"
         type="audio/mpeg">
+
 </audio>
 
 
@@ -2302,19 +2304,28 @@ document.body.addEventListener(
 
     function(){
 
-        natureSound.play().catch(function(error){
+        natureSound.muted = false;
 
-    console.log(
-        "Naturlyd kunne ikke startes",
-        error
-    );
-});
+        natureSound.volume = 0.12;
+
+        const playPromise =
+            natureSound.play();
+
+        if(playPromise !== undefined){
+
+            playPromise.catch(function(error){
+
+                console.log(
+                    "Naturlyd kunne ikke startes",
+                    error
+                );
+            });
+        }
 
     },
 
     { once:true }
 );
-
     const savedBoard =
         localStorage.getItem("turbingo_board");
 
