@@ -805,9 +805,14 @@ position:relative;
 }
 
 .completed{
+
     background:#d9ffd9;
+
     border:4px solid #53c653;
+
     transform:scale(1.02);
+
+    animation:completePulse 0.35s ease;
 }
 
 .proofImage{
@@ -1243,6 +1248,151 @@ position:relative;
     background:#43a047;
 }
 
+/* SPILL POLISH */
+
+#progressWrapper{
+
+    width:min(82vw, 500px);
+
+    margin:0 auto 12px auto;
+}
+
+#progressBar{
+
+    width:100%;
+
+    height:18px;
+
+    background:#dfe6e9;
+
+    border-radius:999px;
+
+    overflow:hidden;
+
+    box-shadow:
+        inset 0 2px 4px rgba(0,0,0,0.15);
+}
+
+#progressFill{
+
+    width:0%;
+
+    height:100%;
+
+    border-radius:999px;
+
+    background:
+        linear-gradient(
+            to right,
+            #52ff52,
+            #2ea043
+        );
+
+    transition:width 0.35s ease;
+}
+
+#progressText{
+
+    margin-top:8px;
+
+    text-align:center;
+
+    font-size:15px;
+
+    font-weight:800;
+
+    color:#2c3e50;
+}
+
+.loadingOverlay{
+
+    position:fixed;
+
+    inset:0;
+
+    background:rgba(0,0,0,0.55);
+
+    display:none;
+
+    align-items:center;
+
+    justify-content:center;
+
+    z-index:9999;
+}
+
+.loadingBox{
+
+    background:white;
+
+    padding:28px;
+
+    border-radius:28px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    gap:18px;
+
+    box-shadow:
+        0 12px 30px rgba(0,0,0,0.3);
+}
+
+.loadingSpinner{
+
+    width:56px;
+
+    height:56px;
+
+    border-radius:50%;
+
+    border:6px solid #dfe6e9;
+
+    border-top:6px solid #4caf50;
+
+    animation:spinLoader 1s linear infinite;
+}
+
+.loadingText{
+
+    font-size:20px;
+
+    font-weight:800;
+
+    color:#2c3e50;
+}
+
+@keyframes spinLoader{
+
+    0%{
+        transform:rotate(0deg);
+    }
+
+    100%{
+        transform:rotate(360deg);
+    }
+}
+
+@keyframes completePulse{
+
+    0%{
+        transform:scale(1);
+    }
+
+    40%{
+        transform:scale(1.12);
+    }
+
+    100%{
+        transform:scale(1.02);
+    }
+}
+
+
+
 @keyframes bingoPop{
 
     0%{
@@ -1596,6 +1746,22 @@ position:relative;
 
 </div>
 
+<div id="progressWrapper">
+
+    <div id="progressBar">
+
+        <div id="progressFill"></div>
+
+    </div>
+
+    <div id="progressText">
+
+        0% fullført
+
+    </div>
+
+</div>
+
 <div class="bingoGrid" id="bingoGrid"></div>
 
 </div>
@@ -1752,7 +1918,7 @@ position:relative;
 
 <script>
 
-const panel = document.getElementById("panel");
+
 const homeScreen = document.getElementById("homeScreen");
 const boardScreen = document.getElementById("boardScreen");
 const bingoGrid = document.getElementById("bingoGrid");
@@ -1787,6 +1953,21 @@ const messageText =
 const bingoOverlay =
     document.getElementById(
         "bingoOverlay"
+    );
+
+const progressFill =
+    document.getElementById(
+        "progressFill"
+    );
+
+const progressText =
+    document.getElementById(
+        "progressText"
+    );
+
+const loadingOverlay =
+    document.getElementById(
+        "loadingOverlay"
     );
 
 let activeCell = null;
@@ -2045,7 +2226,6 @@ const treasureItems = [
 let currentBoardSize = 0;
 let bingoAchieved = false;
 let playMode = false;
-let requirePhotoProof = false;
 
 let gameProgress = [];
 
@@ -2183,7 +2363,7 @@ function closePedagogyScreen(){
 function goHome(){
     homeScreen.style.display = "block";
     boardScreen.style.display = "none";
-    panel.style.display = "none";
+    
 requirePhotoProof = false;
 }
 
@@ -2543,6 +2723,7 @@ successSound.play();
                             };
 
                             saveBoard();
+updateProgress();
 
                             checkBingo();
                         }
@@ -2574,6 +2755,7 @@ successSound.play();
             }
 
             saveBoard();
+updateProgress();
 
             checkBingo();
         });
@@ -2602,7 +2784,11 @@ function createBoard(size){
 currentBoardSize = size;
 bingoAchieved = false;
 
+updateProgress();
+
 gameProgress = [];
+
+
 
 localStorage.removeItem(
     "turbingo_progress"
@@ -2642,7 +2828,32 @@ cell.addEventListener("click", function(){
 
 }
 
-    
+function updateProgress(){
+
+    const cells =
+        document.querySelectorAll(
+            ".bingoCell"
+        );
+
+    const completed =
+        document.querySelectorAll(
+            ".bingoCell.completed"
+        ).length;
+
+    const total =
+        cells.length;
+
+    const percent =
+        Math.round(
+            (completed / total) * 100
+        );
+
+    progressFill.style.width =
+        percent + "%";
+
+    progressText.innerText =
+        `${completed} av ${total} funnet (${percent}%)`;
+}    
 
 function checkBingo(){
 
@@ -2945,13 +3156,23 @@ cameraChoiceBtn.addEventListener("click", function(){
     fileInput.accept = "image/*";
     fileInput.capture = "environment";
 
+    loadingOverlay.style.display =
+    "flex";
+
+setTimeout(function(){
+
     fileInput.click();
+
+}, 200);
 
     fileInput.addEventListener("change", function(e){
 
-        const file = e.target.files[0];
+    loadingOverlay.style.display =
+        "none";
 
-        if(file){
+    const file = e.target.files[0];
+
+    if(file){
 
             const imageUrl =
                 URL.createObjectURL(file);
@@ -3632,6 +3853,23 @@ async function shareBoardAsImage(){
 
 
 </script>
+
+<div class="loadingOverlay"
+    id="loadingOverlay">
+
+    <div class="loadingBox">
+
+        <div class="loadingSpinner"></div>
+
+        <div class="loadingText">
+
+            Åpner kamera...
+
+        </div>
+
+    </div>
+
+</div>
 
 </body>
 </html>
