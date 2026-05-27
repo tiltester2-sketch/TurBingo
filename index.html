@@ -598,10 +598,18 @@ backdrop-filter:blur(6px);
 }
 
 .topButtons{
+
     display:flex;
-    flex-direction:column;
-    gap:6px;
-    align-items:flex-start;
+
+    flex-wrap:wrap;
+
+    flex-direction:row;
+
+    gap:12px;
+
+    align-items:center;
+
+    margin-top:10px;
 }
 
 
@@ -610,14 +618,53 @@ backdrop-filter:blur(6px);
 }
 
 .backBtn{
+
     border:none;
-    background:#ffb52c;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #ffcf66,
+            #ff9f1c
+        );
+
     color:white;
-    padding:8px 14px;
-    border-radius:12px;
-    font-size:18px;
-    font-weight:bold;
+
+    padding:14px 22px;
+
+    border-radius:20px;
+
+    font-size:17px;
+
+    font-weight:800;
+
     cursor:pointer;
+
+    box-shadow:
+        0 6px 16px rgba(0,0,0,0.18),
+        inset 0 2px 0 rgba(255,255,255,0.35);
+
+    transition:
+        transform 0.15s,
+        box-shadow 0.2s,
+        filter 0.2s;
+
+    backdrop-filter:blur(8px);
+
+    -webkit-backdrop-filter:blur(8px);
+}
+
+.backBtn:hover{
+
+    transform:
+        translateY(-2px)
+        scale(1.03);
+
+    filter:brightness(1.05);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,0.22),
+        inset 0 2px 0 rgba(255,255,255,0.35);
 }
 
 .bingoGrid{
@@ -879,28 +926,109 @@ position:relative;
 }
 
 .saveBtn{
+
     margin-top:0;
-    padding:7px 12px;
+
+    padding:14px 22px;
+
     border:none;
-    border-radius:14px;
-    background:#4f8dff;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #6fb1ff,
+            #3d7dff
+        );
+
     color:white;
-    font-size:20px;
-    font-weight:bold;
+
+    font-size:17px;
+
+    font-weight:800;
+
     cursor:pointer;
+
+    box-shadow:
+        0 6px 16px rgba(0,0,0,0.18),
+        inset 0 2px 0 rgba(255,255,255,0.35);
+
+    transition:
+        transform 0.15s,
+        box-shadow 0.2s,
+        filter 0.2s;
+
+    backdrop-filter:blur(8px);
+
+    -webkit-backdrop-filter:blur(8px);
+}
+
+.saveBtn:hover{
+
+    transform:
+        translateY(-2px)
+        scale(1.03);
+
+    filter:brightness(1.05);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,0.22),
+        inset 0 2px 0 rgba(255,255,255,0.35);
 }
 
 .printBtn{
+
     margin-top:0;
-    padding:7px 12px;
+
+    padding:14px 22px;
+
     align-self:center;
+
     border:none;
-    border-radius:14px;
-    background:#48b04d;
+
+    border-radius:20px;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #63d471,
+            #2ea043
+        );
+
     color:white;
-    font-size:20px;
-    font-weight:bold;
+
+    font-size:17px;
+
+    font-weight:800;
+
     cursor:pointer;
+
+    box-shadow:
+        0 6px 16px rgba(0,0,0,0.18),
+        inset 0 2px 0 rgba(255,255,255,0.35);
+
+    transition:
+        transform 0.15s,
+        box-shadow 0.2s,
+        filter 0.2s;
+
+    backdrop-filter:blur(8px);
+
+    -webkit-backdrop-filter:blur(8px);
+}
+
+.printBtn:hover{
+
+    transform:
+        translateY(-2px)
+        scale(1.03);
+
+    filter:brightness(1.05);
+
+    box-shadow:
+        0 10px 20px rgba(0,0,0,0.22),
+        inset 0 2px 0 rgba(255,255,255,0.35);
 }
 
 /* MOTIVARKIV */
@@ -1180,12 +1308,16 @@ position:relative;
         top:4px;
     }
 
-    .backBtn,
-    .saveBtn,
-    .printBtn{
-        font-size:14px;
-        padding:6px 10px;
-    }
+.backBtn,
+.saveBtn,
+.printBtn{
+
+    font-size:15px;
+
+    padding:12px 16px;
+
+    border-radius:18px;
+}
 }</style>
 
 
