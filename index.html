@@ -1506,6 +1506,7 @@ position:relative;
 
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 
+<script src="https://cdn.jsdelivr.net/npm/qrcodejs/qrcode.min.js"></script>
 
 </head>
 
@@ -1742,6 +1743,12 @@ position:relative;
     🖼️ Del som bilde
 </button>
 
+<button class="printBtn"
+    onclick="shareBoardAsQRCode()">
+
+    📱 Del via QR
+</button>
+
 </div>
 
 </div>
@@ -1895,6 +1902,32 @@ position:relative;
     </div>
 
 </div>
+
+<div class="popupMenu"
+    id="qrModal">
+
+    <div class="popupContent">
+
+        <h2>📱 Del bingoark</h2>
+
+        <div id="qrCodeContainer"
+            style="
+                display:flex;
+                justify-content:center;
+                padding:10px;
+            ">
+        </div>
+
+        <button class="popupButton closeChoice"
+            onclick="closeQRCodeModal()">
+
+            Lukk
+        </button>
+
+    </div>
+
+</div>
+
 
 <!-- BINGO OVERLAY -->
 
@@ -2229,6 +2262,8 @@ let playMode = false;
 
 let gameProgress = [];
 
+let previousScreen = "home";
+
 let currentBoardId = null;
 let currentBoardName = "Mitt bingoark";
 
@@ -2322,6 +2357,8 @@ function openPanel(){
 
     playMode = false;
 
+    previousScreen = "newBoard";
+
     homeScreen.style.display = "none";
 
     document.getElementById(
@@ -2333,13 +2370,14 @@ function openPedagogyPanel(){
     clickSound.currentTime = 0;
     clickSound.play();
 
+    previousScreen = "pedagogy";
+
     homeScreen.style.display = "none";
 
     document.getElementById(
         "pedagogyScreen"
     ).style.display = "block";
 }
-
 function closeNewBoardScreen(){
 
     document.getElementById(
@@ -2361,10 +2399,27 @@ function closePedagogyScreen(){
 }
 
 function goHome(){
-    homeScreen.style.display = "block";
+
     boardScreen.style.display = "none";
-    
-requirePhotoProof = false;
+
+    requirePhotoProof = false;
+
+    if(previousScreen === "newBoard"){
+
+        document.getElementById(
+            "newBoardScreen"
+        ).style.display = "block";
+
+    }else if(previousScreen === "pedagogy"){
+
+        document.getElementById(
+            "pedagogyScreen"
+        ).style.display = "block";
+
+    }else{
+
+        homeScreen.style.display = "block";
+    }
 }
 
 function openGameSelect(){
@@ -3851,6 +3906,86 @@ async function shareBoardAsImage(){
     }
 }
 
+function shareBoardAsQRCode(){
+
+    const cells =
+        document.querySelectorAll(
+            ".bingoCell"
+        );
+
+    let contentList = [];
+
+    cells.forEach(function(cell){
+
+    const content =
+        cell.querySelector(
+            ".cellContent"
+        );
+
+    const text =
+        content.innerText.trim();
+
+    const image =
+        content.querySelector("img");
+
+    if(text && text !== "+"){
+
+        contentList.push(text);
+
+    }else if(image){
+
+        contentList.push("Bilde");
+    }
+});
+
+    const qrData = JSON.stringify({
+
+        size:currentBoardSize,
+
+        content:contentList
+    });
+
+const qrModal =
+    document.getElementById(
+        "qrModal"
+    );
+
+const qrContainer =
+    document.getElementById(
+        "qrCodeContainer"
+    );
+
+if(!qrModal || !qrContainer){
+
+    showMessage(
+        "QR-vindu ikke funnet."
+    );
+
+    return;
+}
+
+    qrContainer.innerHTML = "";
+
+    new QRCode(qrContainer, {
+
+        text:qrData,
+
+        width:260,
+
+        height:260
+    });
+
+    qrModal.style.display =
+        "flex";
+}
+
+function closeQRCodeModal(){
+
+    document.getElementById(
+        "qrModal"
+    ).style.display = "none";
+}
+
 
 </script>
 
@@ -3870,6 +4005,7 @@ async function shareBoardAsImage(){
     </div>
 
 </div>
+
 
 </body>
 </html>
