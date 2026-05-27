@@ -461,6 +461,30 @@ backdrop-filter:blur(6px);
 
     transform:scale(0.98);
 }
+
+#newBoardScreen,
+#pedagogyScreen{
+
+    display:none;
+
+    min-height:100vh;
+
+    background:
+        linear-gradient(
+            to bottom,
+            #dff5ff,
+            #ffffff
+        );
+
+    padding:20px;
+}
+
+.panelPageContent{
+
+    max-width:700px;
+
+    margin:30px auto;
+}
 #gameSelectScreen{
 
     display:none;
@@ -1391,75 +1415,126 @@ position:relative;
     <!-- Klikkbare områder på bakgrunnsbildet -->
 
 
+</div>
 
-    <div class="panel" id="panel">
-        <h2>Velg størrelse på bingoark</h2>
+
+<div id="newBoardScreen">
+
+    <div class="topBar">
+
+        <h1>Velg størrelse</h1>
+
+        <div class="topButtons">
+
+            <button class="backBtn"
+                onclick="closeNewBoardScreen()">
+
+                Tilbake
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="panelPageContent">
 
         <div class="gridSettings">
-            <button onclick="createBoard(2)">2 x 2</button>
-            <button onclick="createBoard(3)">3 x 3</button>
-            <button onclick="createBoard(4)">4 x 4</button>
-            <button onclick="createBoard(5)">5 x 5</button>
+
+            <button onclick="createBoard(2)">
+                2 x 2
+            </button>
+
+            <button onclick="createBoard(3)">
+                3 x 3
+            </button>
+
+            <button onclick="createBoard(4)">
+                4 x 4
+            </button>
+
+            <button onclick="createBoard(5)">
+                5 x 5
+            </button>
+
         </div>
+
     </div>
 
 </div>
 
-<div class="panel" id="pedagogyPanel">
+<div id="pedagogyScreen">
 
-    <h2>Velg pedagogisk modus</h2>
+    <div class="topBar">
 
-   <div class="gridSettings">
+        <h1>Pedagogisk modus</h1>
 
-<button onclick="startAnimalTracks()">
-🐾 Dyrespor
-</button>
+        <div class="topButtons">
 
-<button onclick="startLetterHunt()">
-🔤 Bokstavjakt
-</button>
+            <button class="backBtn"
+                onclick="closePedagogyScreen()">
 
-<button onclick="startColorHunt()">
-🎨 Fargejakt
-</button>
+                Tilbake
+            </button>
 
-<button onclick="startMathHunt()">
-➕ Matte på tur
-</button>
+        </div>
 
-<button onclick="startNumberHunt()">
-🔢 Talljakt
-</button>
+    </div>
 
-<button onclick="startShapeHunt()">
-🔺 Former
-</button>
+    <div class="panelPageContent">
 
-<button onclick="startNatureBingo()">
-🌲 Naturbingo
-</button>
+        <div class="gridSettings">
 
-<button onclick="startWeatherHunt()">
-☁️ Værjakt
-</button>
+            <button onclick="startAnimalTracks()">
+                🐾 Dyrespor
+            </button>
 
-<button onclick="startRhymingWords()">
-🗣️ Rimord
-</button>
+            <button onclick="startLetterHunt()">
+                🔤 Bokstavjakt
+            </button>
 
-<button onclick="startEnglishWords()">
-🇬🇧 Engelske ord
-</button>
+            <button onclick="startColorHunt()">
+                🎨 Fargejakt
+            </button>
 
-<button onclick="startTrafficSigns()">
-🚸 Trafikkskilt
-</button>
+            <button onclick="startMathHunt()">
+                ➕ Matte på tur
+            </button>
 
-<button onclick="startTreasureHunt()">
-💎 Skattejakt
-</button>
+            <button onclick="startNumberHunt()">
+                🔢 Talljakt
+            </button>
 
-</div>
+            <button onclick="startShapeHunt()">
+                🔺 Former
+            </button>
+
+            <button onclick="startNatureBingo()">
+                🌲 Naturbingo
+            </button>
+
+            <button onclick="startWeatherHunt()">
+                ☁️ Værjakt
+            </button>
+
+            <button onclick="startRhymingWords()">
+                🗣️ Rimord
+            </button>
+
+            <button onclick="startEnglishWords()">
+                🇬🇧 Engelske ord
+            </button>
+
+            <button onclick="startTrafficSigns()">
+                🚸 Trafikkskilt
+            </button>
+
+            <button onclick="startTreasureHunt()">
+                💎 Skattejakt
+            </button>
+
+        </div>
+
+    </div>
 
 </div>
 
@@ -2062,55 +2137,47 @@ if(savedProgress){
 }
 function openPanel(){
 
-clickSound.currentTime = 0;
-clickSound.play();
+    clickSound.currentTime = 0;
+    clickSound.play();
 
     playMode = false;
 
-    const pedagogyPanel =
-        document.getElementById(
-            "pedagogyPanel"
-        );
+    homeScreen.style.display = "none";
 
-    /* Lukk pedagogisk panel */
-
-    pedagogyPanel.style.display = "none";
-
-    /* Toggle vanlig panel */
-
-    if(panel.style.display === "block"){
-
-        panel.style.display = "none";
-
-    }else{
-
-        panel.style.display = "block";
-    }
+    document.getElementById(
+        "newBoardScreen"
+    ).style.display = "block";
 }
 function openPedagogyPanel(){
 
-clickSound.currentTime = 0;
-clickSound.play();
+    clickSound.currentTime = 0;
+    clickSound.play();
 
-    const pedagogyPanel =
-        document.getElementById(
-            "pedagogyPanel"
-        );
+    homeScreen.style.display = "none";
 
-    /* Lukk vanlig panel */
+    document.getElementById(
+        "pedagogyScreen"
+    ).style.display = "block";
+}
 
-    panel.style.display = "none";
+function closeNewBoardScreen(){
 
-    /* Toggle pedagogisk panel */
+    document.getElementById(
+        "newBoardScreen"
+    ).style.display = "none";
 
-    if(pedagogyPanel.style.display === "block"){
+    homeScreen.style.display =
+        "block";
+}
 
-        pedagogyPanel.style.display = "none";
+function closePedagogyScreen(){
 
-    }else{
+    document.getElementById(
+        "pedagogyScreen"
+    ).style.display = "none";
 
-        pedagogyPanel.style.display = "block";
-    }
+    homeScreen.style.display =
+        "block";
 }
 
 function goHome(){
@@ -2517,12 +2584,21 @@ successSound.play();
 function createBoard(size){
 
     homeScreen.style.display = "none";
+
+    document.getElementById(
+        "newBoardScreen"
+    ).style.display = "none";
+
+    document.getElementById(
+        "pedagogyScreen"
+    ).style.display = "none";
+
     boardScreen.style.display = "block";
 
     bingoGrid.innerHTML = "";
 
-    bingoGrid.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
-
+    bingoGrid.style.gridTemplateColumns =
+        `repeat(${size}, 1fr)`;
 currentBoardSize = size;
 bingoAchieved = false;
 
@@ -3005,13 +3081,9 @@ function startColorHunt(){
     playMode = true;
 requirePhotoProof = true;
 
-    const pedagogyPanel =
-        document.getElementById(
-            "pedagogyPanel"
-        );
-
-    pedagogyPanel.style.display =
-        "none";
+    document.getElementById(
+    "pedagogyScreen"
+).style.display = "none";
 
     createBoard(3);
 
@@ -3063,13 +3135,9 @@ function startAnimalTracks(){
 
     requirePhotoProof = true;
 
-    const pedagogyPanel =
-        document.getElementById(
-            "pedagogyPanel"
-        );
-
-    pedagogyPanel.style.display =
-        "none";
+document.getElementById(
+    "pedagogyScreen"
+).style.display = "none";
 
     createBoard(3);
 
@@ -3124,13 +3192,9 @@ function startLetterHunt(){
 
     requirePhotoProof = true;
 
-    const pedagogyPanel =
-        document.getElementById(
-            "pedagogyPanel"
-        );
-
-    pedagogyPanel.style.display =
-        "none";
+document.getElementById(
+    "pedagogyScreen"
+).style.display = "none";
 
     createBoard(3);
 
@@ -3195,13 +3259,9 @@ function startMathHunt(){
 
     requirePhotoProof = true;
 
-    const pedagogyPanel =
-        document.getElementById(
-            "pedagogyPanel"
-        );
-
-    pedagogyPanel.style.display =
-        "none";
+document.getElementById(
+    "pedagogyScreen"
+).style.display = "none";
 
     createBoard(3);
 
@@ -3273,13 +3333,9 @@ function setupPedagogyBoard(dataList, bg1, bg2, textColor){
 
     requirePhotoProof = true;
 
-    const pedagogyPanel =
-        document.getElementById(
-            "pedagogyPanel"
-        );
-
-    pedagogyPanel.style.display =
-        "none";
+document.getElementById(
+    "pedagogyScreen"
+).style.display = "none";
 
     createBoard(3);
 
