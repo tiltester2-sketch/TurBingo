@@ -568,6 +568,7 @@ animation:
 }
 
 .bingoCell{
+position:relative;
     background:white;
     border-radius:14px;
     aspect-ratio:1 / 1;
@@ -607,6 +608,28 @@ animation:
     background:#d9ffd9;
     border:4px solid #53c653;
     transform:scale(1.02);
+}
+
+.proofImage{
+
+    position:absolute;
+
+    bottom:6px;
+    right:6px;
+
+    width:42%;
+    height:42%;
+
+    object-fit:cover;
+
+    border-radius:10px;
+
+    border:3px solid white;
+
+    box-shadow:
+        0 3px 8px rgba(0,0,0,0.35);
+
+    z-index:5;
 }
 
 .foundBtn{
@@ -2014,13 +2037,13 @@ if(gameProgress[index]){
     cellContent.className =
         "cellContent";
 
-    cellContent.innerHTML =
-        `
-        <img
-            src="${gameProgress[index].image}"
-            class="cellImage"
-        >
-        `;
+    cellContent.innerHTML +=
+    `
+    <img
+        src="${gameProgress[index].image}"
+        class="proofImage"
+    >
+    `;
 }
         }
 
@@ -2062,14 +2085,13 @@ const cellContent =
 cellContent.className =
     "cellContent";
 
-cellContent.innerHTML =
+cellContent.innerHTML +=
     `
     <img
         src="${imageUrl}"
-        class="cellImage"
+        class="proofImage"
     >
     `;
-
                             cell.classList.add(
                                 "completed"
                             );
